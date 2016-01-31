@@ -30,18 +30,18 @@ After playing a little we can crash the program using the create command by fill
 
 ### Step 2: $pc
 Now we want to overwrite the current instruction pointer $pc because it's sexy and this way we can control the flow of execution.
-We need as much information as possible that why we need either a arm device or arm vm, we also need some decompiler/debugger ida and gdb will do the work.
-Because you'r cool I share with you this 2.9M [qemu-arm](google) standalone :)
+We need as much information as possible that why we need either an arm device or arm VM, we also need some decompiler/debugger ida and gdb will do the work.
+Because you'r cool, I share with you this 2.9M [qemu-arm](/qemu-arm) standalone :)
 
 Using python and your prefered pattern generator inject 300 bytes in the tags field, using gdb we now know the offset for overwriting $pc is 88.
 
 ### Step 3: store the shellcode
-During a static IDA analysis we saw that one allocation of buffer where the name is stored. This buffer addr can be found using gdb.
+During a static IDA analysis, we saw that one allocation of the buffer where the name is stored. This buffer addr can be found using gdb.
 ptr = 0x8f830
 ![IDA](/IDA_malloc_Capture.PNG)
 
 ### Step 4: write the shellcode
-Playing around with arm-linux-as and arm-linux-ld we can write our own shellcode. Make sure to avoid null byte !! and don't forget do dup2 stdin, stdout, stderr to the socket :p
+Playing around with arm-linux-as and arm-linux-ld we can write our own shellcode. Make sure to avoid null byte !! and don't forget to dup2 stdin, stdout, stderr to the socket :p
 [help here shellstorm] (http://shell-storm.org/blog/Shellcode-On-ARM-Architecture/)
 ![IDA](/Shellcode_Capture.PNG)
 
@@ -58,6 +58,18 @@ The shell is running but there is no ls on the system
     > cat flag*
     FlagHere
 
+### Full exploit:
+[exploit](/exploit.py)
+
+### Bonus: IRL
+In real life, it wasn't that simple,
+ I spend a lot of time messing to find a addr where I can jump to because we got no information about the state of the distant machine memory,
+ I began to try with the stack but no luck.
+ We can't rop or "ret to libc..static" because there are a lot of null byte in all addr.
+ I didn't saw at the first look that we can overflow in tags too. it help because the overwrite in not dependant of the shellcode upload.
+ Some shit when shellcoding...
+ I realy encourage you to check out this [qemu-arm](/qemu-arm) standalone because it's very light and we don't need to setup a vm just ./quemu-arm ./pinkfloyd
+ I saved it from an previous ctf ^^
 Enjoy :)
 
 ----
