@@ -2,7 +2,7 @@
 
 **Category:** exploit |
 **Name:** pinkfloyd |
-**Solves:** 16 |
+**Solves:** ? |
 **Description:**
 
 > 52.72.171.221 9981
@@ -70,6 +70,8 @@ In real life, it wasn't that simple,
  Some shit when shellcoding...
  I realy encourage you to check out this [qemu-arm](/qemu-arm) standalone because it's very light and we don't need to setup a vm just ./quemu-arm ./pinkfloyd
  I saved it from an previous ctf ^^
+ check out my gdb.gdbinit you can start it using gdb -x gdb.gdbinit
+ it's awesome because I can automate everything, it's a big time saver, here it's basic but we can do a lot more complex
 Enjoy :)
 
 ----
